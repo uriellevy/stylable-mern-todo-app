@@ -5,7 +5,7 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   try {
     const task = await new Task(req.body).save();
-    res.send(task);
+    res.send(`${task.task} was added to the list`);
   } catch (error) {
     res.send(error);
   }
@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
 router.patch("/:id", async (req, res) => {
   try {
     const task = await Task.findOneAndUpdate({ _id: req.params.id }, req.body);
-    res.send(task);
+    res.send(`task was updated successfully!`);
   } catch (error) {
     res.send(error);
   }
@@ -32,7 +32,7 @@ router.patch("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const task = await Task.findByIdAndDelete(req.params.id);
-    res.send(task);
+    res.send(`task with the name: "${task.task}" deleted`);
   } catch (error) {
     res.send(error);
   }
