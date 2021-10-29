@@ -18,6 +18,7 @@ function TodoApp() {
       };
 
       setTaskList([...tasklist, taskDetails]);
+      setTask("");
     }
   };
 
@@ -50,6 +51,7 @@ function TodoApp() {
         name="text"
         id="text"
         onChange={(e) => handleChange(e)}
+        value={task}
         placeholder="Add task here..."
       />
       <button className="add-btn" onClick={AddTask}>
