@@ -39,6 +39,7 @@
   margin-left: 10px;
   cursor: pointer;
   border: 3px solid black;
+  transition: 0.3s ease;
 }
 
 .todo .add-btn:hover {
@@ -64,6 +65,7 @@
   background-color: rgb(236, 236, 236, 0.6);
   font-family: "Permanent Marker", cursive;
   color: black;
+  transition: 0.3s ease;
 }
 .todo ul li .delete {
   margin-top: 5px;
