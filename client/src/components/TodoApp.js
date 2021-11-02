@@ -1,10 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./TodoApp.css";
+import axios from "axios";
 // import { AddTask, getTask } from "../services/taskServices";
 
 function TodoApp() {
   const [task, setTask] = useState("");
   const [tasklist, setTaskList] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/tasks")
+      .then((res) => {
+        console.log(res);
+        setTaskList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleChange = (e) => {
     setTask(e.target.value);
@@ -63,7 +76,7 @@ function TodoApp() {
         <ul>
           {tasklist.map((t) => (
             <li className={t.isCompleted ? "crossText" : "listitem"}>
-              {t.value}
+              {t.task}
               <button
                 className="completed"
                 onClick={(e) => taskCompleted(e, t.id)}
