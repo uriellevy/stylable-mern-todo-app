@@ -71,7 +71,7 @@ function TodoApp() {
   const taskCompleted = (e, id) => {
     e.preventDefault();
     //let's find index of element
-    const element = tasklist.findIndex((elem) => elem.id === id);
+    const element = tasklist.findIndex((elem) => elem._id === id);
 
     //copy array into new variable
     const newTaskList = [...tasklist];
@@ -109,7 +109,7 @@ function TodoApp() {
               {t.task}
               <button
                 className="completed"
-                onClick={(e) => taskCompleted(e, t.id)}
+                onClick={(e) => taskCompleted(e, t._id)}
               >
                 Completed
               </button>
