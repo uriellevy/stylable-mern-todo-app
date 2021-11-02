@@ -75,7 +75,10 @@ function TodoApp() {
       {tasklist !== [] ? (
         <ul>
           {tasklist.map((t) => (
-            <li className={t.isCompleted ? "crossText" : "listitem"}>
+            <li
+              className={t.isCompleted ? "crossText" : "listitem"}
+              key={t._id}
+            >
               {t.task}
               <button
                 className="completed"
