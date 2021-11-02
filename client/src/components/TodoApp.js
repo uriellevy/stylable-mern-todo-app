@@ -23,22 +23,49 @@ function TodoApp() {
     setTask(e.target.value);
   };
 
-  const AddTask = () => {
+  const AddTask = async () => {
     if (task !== "") {
-      const taskDetails = {
-        id: Math.floor(Math.random() * 1000),
-        value: task,
-        isCompleted: false,
-      };
-
-      setTaskList([...tasklist, taskDetails]);
-      setTask("");
+      const response = await fetch("http://localhost:5000/tasks", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          mode: "no-cors",
+        },
+        body: JSON.stringify({ task }),
+      });
+      const responseJSON = await response.json();
+      console.log("responseJSON", responseJSON);
+      if (response.status === 200) {
+        setTaskList([
+          ...tasklist,
+          {
+            _id: responseJSON._id,
+            task: responseJSON.task,
+            completed: responseJSON.completed,
+          },
+        ]);
+        setTask("");
+      }
     }
   };
 
-  const deletetask = (e, id) => {
+  const deletetask = async (e, id) => {
     e.preventDefault();
-    setTaskList(tasklist.filter((t) => t.id !== id));
+    try {
+      const response = await fetch(`http://localhost:5000/tasks/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const responseText = await response.text();
+      console.log(responseText);
+    } catch (error) {
+      console.log(`error occured while task with id ${id} trying to delete!`);
+    }
+    setTaskList(tasklist.filter((t) => t._id !== id));
   };
 
   const taskCompleted = (e, id) => {
@@ -87,7 +114,7 @@ function TodoApp() {
                 Completed
               </button>
 
-              <button className="delete" onClick={(e) => deletetask(e, t.id)}>
+              <button className="delete" onClick={(e) => deletetask(e, t._id)}>
                 Delete
               </button>
             </li>

@@ -5,7 +5,7 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   try {
     const task = await new Task(req.body).save();
-    res.send(`${task.task} was added to the list`);
+    res.status(200).send(task);
   } catch (error) {
     res.send(error);
   }
@@ -32,9 +32,9 @@ router.patch("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const task = await Task.findByIdAndDelete(req.params.id);
-    res.send(`task with the name: "${task.task}" deleted`);
+    res.status(200).send(`task with the name: "${task.task}" deleted`);
   } catch (error) {
-    res.send(error);
+    res.status(401).send(error);
   }
 });
 
