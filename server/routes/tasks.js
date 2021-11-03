@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
 router.patch("/:id", async (req, res) => {
   try {
     const task = await Task.findOneAndUpdate({ _id: req.params.id }, req.body);
-    res.send(`task was updated successfully!`);
+    res.status(200).send(`task completed`);
   } catch (error) {
     res.send(error);
   }

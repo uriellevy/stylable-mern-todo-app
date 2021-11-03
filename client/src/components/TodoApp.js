@@ -68,20 +68,33 @@ function TodoApp() {
     setTaskList(tasklist.filter((t) => t._id !== id));
   };
 
-  const taskCompleted = (e, id) => {
+  const taskCompleted = async (e, id) => {
     e.preventDefault();
+    try {
+      const response = await fetch(`http://localhost:5000/tasks/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          completed: true,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const responseText = await response.text();
+      console.log(responseText);
+    } catch (error) {
+      console.log(`error occured while task with id ${id} trying to delete!`);
+    }
+
     //let's find index of element
     const element = tasklist.findIndex((elem) => elem._id === id);
-
     //copy array into new variable
     const newTaskList = [...tasklist];
-
     //edit our element
     newTaskList[element] = {
       ...newTaskList[element],
-      isCompleted: true,
+      Completed: true,
     };
-
     setTaskList(newTaskList);
   };
 
@@ -102,10 +115,7 @@ function TodoApp() {
       {tasklist !== [] ? (
         <ul>
           {tasklist.map((t) => (
-            <li
-              className={t.isCompleted ? "crossText" : "listitem"}
-              key={t._id}
-            >
+            <li className={t.Completed ? "crossText" : "listitem"} key={t._id}>
               {t.task}
               <button
                 className="completed"
