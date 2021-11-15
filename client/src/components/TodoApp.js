@@ -9,7 +9,7 @@ function TodoApp() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/tasks")
+      .get("http://localhost:5001/tasks")
       .then((res) => {
         console.log(res);
         setTaskList(res.data);
@@ -25,7 +25,7 @@ function TodoApp() {
 
   const AddTask = async () => {
     if (task !== "") {
-      const response = await fetch("http://localhost:5000/tasks", {
+      const response = await fetch("http://localhost:5001/tasks", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -53,8 +53,9 @@ function TodoApp() {
 
   const deletetask = async (e, id) => {
     e.preventDefault();
+
     try {
-      const response = await fetch(`http://localhost:5000/tasks/${id}`, {
+      const response = await fetch(`http://localhost:5001/tasks/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -71,7 +72,7 @@ function TodoApp() {
   const taskCompleted = async (e, id) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5000/tasks/${id}`, {
+      const response = await fetch(`http://localhost:5001/tasks/${id}`, {
         method: "PATCH",
         body: JSON.stringify({
           completed: true,
@@ -93,7 +94,7 @@ function TodoApp() {
     //edit our element
     newTaskList[element] = {
       ...newTaskList[element],
-      Completed: true,
+      completed: true,
     };
     setTaskList(newTaskList);
   };
@@ -115,7 +116,7 @@ function TodoApp() {
       {tasklist !== [] ? (
         <ul>
           {tasklist.map((t) => (
-            <li className={t.Completed ? "crossText" : "listitem"} key={t._id}>
+            <li className={t.completed ? "crossText" : "listitem"} key={t._id}>
               {t.task}
               <button
                 className="completed"
